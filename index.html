@@ -53,11 +53,10 @@
     border-radius: 999px;
     animation: fall linear infinite;
   }
-
   @keyframes fall {
-    0% { transform: translateY(-100px); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 0.4; }
+    0%   { transform: translateY(-100px); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.4; }
     100% { transform: translateY(110vh); opacity: 0; }
   }
 
@@ -86,12 +85,12 @@
   }
   #screen-home h1 span { color: var(--sky); }
 
-  #screen-home p {
+  #screen-home > p {
     font-size: 1.1rem;
     color: rgba(255,255,255,0.8);
     max-width: 520px;
     line-height: 1.7;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .island-img {
@@ -102,10 +101,26 @@
   }
   @keyframes float {
     0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+    50%      { transform: translateY(-12px); }
   }
 
-  /* Section buttons */
+  /* ── HOME: video de presentación ── */
+  .home-video-wrap {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    aspect-ratio: 16/9;
+    position: relative;
+  }
+  .home-video-wrap iframe {
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ── Section buttons – FIX #2: no .active class, only :hover ── */
   .btn-sections {
     display: flex;
     flex-wrap: wrap;
@@ -113,7 +128,6 @@
     justify-content: center;
     margin-top: 0.5rem;
   }
-
   .btn-section {
     background: rgba(255,255,255,0.1);
     border: 2px solid rgba(255,255,255,0.3);
@@ -128,26 +142,16 @@
     transition: all 0.3s;
     backdrop-filter: blur(6px);
   }
-  .btn-section:hover, .btn-section.active {
+  .btn-section:hover {
     background: var(--sky);
     border-color: var(--sky);
     color: var(--dark);
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(72,202,228,0.4);
   }
-  .btn-section.locked {
-    opacity: 0.45;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
 
   /* ── GENERIC SCREEN ── */
-  .screen {
-    display: none;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  .screen.active { display: flex; }
+  .screen { display: none; min-height: 100vh; flex-direction: column; }
 
   /* ── HEADER BAR ── */
   .app-header {
@@ -169,6 +173,7 @@
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.2s;
+    flex-shrink: 0;
   }
   .app-header .back-btn:hover { background: rgba(255,255,255,0.2); }
   .app-header h2 {
@@ -185,16 +190,21 @@
     text-transform: uppercase;
     padding: 0.25rem 0.8rem;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
-  /* ── EXPLORA ── */
-  #screen-explora .content {
+  /* ── CONTENT WRAPPER ── */
+  .content {
     padding: 1.5rem;
     max-width: 760px;
     margin: 0 auto;
     width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 90px;
   }
 
+  /* ── SECTION INTRO BANNERS ── */
   .section-intro {
     background: linear-gradient(135deg, var(--ocean), #004E59);
     color: white;
@@ -205,26 +215,50 @@
     overflow: hidden;
   }
   .section-intro::before {
-    content: '💧';
-    position: absolute;
-    right: 1.5rem; top: 1.2rem;
-    font-size: 3rem;
-    opacity: 0.3;
+    position: absolute; right: 1.5rem; top: 1.2rem;
+    font-size: 3rem; opacity: 0.3;
   }
-  .section-intro h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
-  .section-intro p { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
+  .section-intro h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .section-intro p   { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
 
+  /* ── INTEGRATED VIDEO PLAYER ── */
+  .video-player-wrap {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 1rem 0;
+    background: #000;
+    aspect-ratio: 16/9;
+    position: relative;
+  }
+  .video-player-wrap iframe {
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+  }
+  /* placeholder shown before a topic is selected */
+  .video-placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #012a30, #024650);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    margin: 1rem 0;
+    gap: 0.75rem;
+  }
+  .video-placeholder span { font-size: 3rem; }
+  .video-placeholder p   { font-size: 0.9rem; }
+
+  /* ── TOPICS GRID ── */
   .topics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
-
   .topic-card {
     background: var(--white);
     border: 2px solid #e0eaec;
@@ -239,23 +273,20 @@
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0,109,119,0.15);
   }
-  .topic-card.visited { border-color: var(--ocean); background: #f0fafb; }
+  .topic-card.visited  { border-color: var(--ocean); background: #f0fafb; }
+  .topic-card.selected { border-color: var(--sky); background: #e8f8fc; box-shadow: 0 0 0 3px rgba(72,202,228,0.25); }
   .topic-card .topic-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  .topic-card h4 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--dark); }
-  .topic-card .topic-badge {
-    position: absolute;
-    top: 0.6rem; right: 0.6rem;
+  .topic-card h4 { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--dark); }
+  .topic-badge {
+    position: absolute; top: 0.6rem; right: 0.6rem;
     width: 22px; height: 22px;
-    background: var(--ocean);
-    color: white;
-    border-radius: 50%;
-    font-size: 0.7rem;
-    display: flex; align-items: center; justify-content: center;
-    display: none;
+    background: var(--ocean); color: white;
+    border-radius: 50%; font-size: 0.7rem;
+    display: none; align-items: center; justify-content: center;
   }
   .topic-card.visited .topic-badge { display: flex; }
 
-  /* Topic detail panel */
+  /* ── TOPIC DETAIL ── */
   .topic-detail {
     background: var(--white);
     border: 2px solid var(--ocean);
@@ -264,18 +295,15 @@
     margin-bottom: 2rem;
     animation: slideIn 0.3s ease;
   }
+  .topic-detail h4 { font-family: 'Syne', sans-serif; font-size: 1.1rem; color: var(--ocean); margin-bottom: 0.8rem; }
+  .topic-detail p   { font-size: 0.95rem; line-height: 1.7; color: #2a3a3e; }
+
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .topic-detail h4 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
-    color: var(--ocean);
-    margin-bottom: 0.8rem;
-  }
-  .topic-detail p { font-size: 0.95rem; line-height: 1.7; color: #2a3a3e; margin-bottom: 1rem; }
 
+  /* ── VIDEO LINK BUTTON (fallback for external links) ── */
   .video-link {
     display: inline-flex;
     align-items: center;
@@ -287,31 +315,37 @@
     border-radius: 999px;
     font-size: 0.9rem;
     font-weight: 700;
+    margin-top: 0.8rem;
     transition: all 0.2s;
   }
   .video-link:hover { background: var(--leaf); transform: scale(1.03); }
+  .video-link.secondary {
+    background: transparent;
+    border: 2px solid var(--ocean);
+    color: var(--ocean);
+  }
+  .video-link.secondary:hover { background: var(--ocean); color: white; }
 
-  /* Quiz section */
-  .quiz-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: #e0f2fe; border-radius: 999px;
+    height: 10px; overflow: hidden; margin: 1.5rem 0 0.5rem;
   }
-  .quiz-header h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.2rem;
-    color: var(--dark);
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--ocean), var(--sky));
+    height: 100%; border-radius: 999px;
+    transition: width 0.5s ease;
   }
+  .progress-label { font-size: 0.8rem; color: var(--ocean); font-weight: 700; text-align: right; }
+
+  /* ── QUIZ ── */
+  .quiz-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .quiz-header h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; color: var(--dark); }
   .quiz-counter {
-    background: var(--ocean);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 700;
-    padding: 0.3rem 0.9rem;
-    border-radius: 999px;
+    background: var(--ocean); color: white;
+    font-size: 0.8rem; font-weight: 700;
+    padding: 0.3rem 0.9rem; border-radius: 999px;
   }
-
   .quiz-card {
     background: #f7fcfd;
     border: 2px solid #d0ecf0;
@@ -319,25 +353,12 @@
     padding: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  .quiz-card .question {
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.5;
-    margin-bottom: 1.2rem;
-    color: var(--dark);
-  }
+  .quiz-card .question { font-size: 1rem; font-weight: 700; line-height: 1.5; margin-bottom: 1.2rem; color: var(--dark); }
   .options { display: flex; flex-direction: column; gap: 0.6rem; }
   .opt-btn {
-    background: white;
-    border: 2px solid #d0ecf0;
-    border-radius: 12px;
-    padding: 0.8rem 1rem;
-    text-align: left;
-    cursor: pointer;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    color: var(--dark);
+    background: white; border: 2px solid #d0ecf0; border-radius: 12px;
+    padding: 0.8rem 1rem; text-align: left; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 0.9rem; line-height: 1.4; color: var(--dark);
     transition: all 0.2s;
   }
   .opt-btn:hover:not(:disabled) { border-color: var(--sky); background: #f0fafc; }
@@ -346,323 +367,214 @@
   .opt-btn:disabled { cursor: default; }
 
   .feedback-box {
-    background: white;
-    border-left: 4px solid var(--ocean);
+    background: white; border-left: 4px solid var(--ocean);
     border-radius: 0 12px 12px 0;
-    padding: 1rem 1.2rem;
-    margin-top: 1rem;
-    font-size: 0.88rem;
-    line-height: 1.6;
-    color: #2a4040;
-    display: none;
-    animation: slideIn 0.3s;
+    padding: 1rem 1.2rem; margin-top: 1rem;
+    font-size: 0.88rem; line-height: 1.6; color: #2a4040;
+    display: none; animation: slideIn 0.3s;
   }
   .feedback-box.show { display: block; }
 
-  /* ── INSPIRATE ── */
-  #screen-inspirate .content {
-    padding: 1.5rem;
-    max-width: 760px;
-    margin: 0 auto;
-    width: 100%;
+  /* ── DATA COLLECTION NOTICE (GitHub Pages) ── */
+  .data-notice {
+    background: #fffbeb;
+    border: 2px solid #fcd34d;
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #78350f;
   }
+  .data-notice strong { color: #92400e; }
 
+  /* ── GOOGLE FORM EMBED ── */
+  .gform-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #d0ecf0;
+    margin: 1rem 0;
+  }
+  .gform-wrap iframe { width: 100%; border: none; display: block; }
+
+  /* ── INSPIRATE ── */
   .insp-intro {
     background: linear-gradient(135deg, var(--coral), var(--sun));
-    color: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
+    color: white; border-radius: 20px; padding: 2rem; margin-bottom: 2rem;
+    position: relative; overflow: hidden;
   }
-  .insp-intro::before {
-    content: '🌟';
-    position: absolute;
-    right: 1.5rem; top: 1.2rem;
-    font-size: 3rem;
-    opacity: 0.3;
-  }
+  .insp-intro::before { content: '🌟'; position: absolute; right: 1.5rem; top: 1.2rem; font-size: 3rem; opacity: 0.3; }
   .insp-intro h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .insp-intro p { font-size: 0.95rem; opacity: 0.9; line-height: 1.6; }
+  .insp-intro p  { font-size: 0.95rem; opacity: 0.9; line-height: 1.6; }
 
   .insp-cards { display: flex; flex-direction: column; gap: 1.5rem; }
   .insp-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 2px solid #fde7d5;
-    transition: box-shadow 0.25s;
+    background: white; border-radius: 20px; overflow: hidden;
+    border: 2px solid #fde7d5; transition: box-shadow 0.25s;
   }
   .insp-card:hover { box-shadow: 0 8px 32px rgba(226,149,120,0.25); }
   .insp-card-top {
     background: linear-gradient(90deg, var(--coral), var(--sun));
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1rem;
   }
   .insp-card-top .person-avatar {
-    width: 48px; height: 48px;
-    background: white;
-    border-radius: 50%;
-    font-size: 1.6rem;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    width: 48px; height: 48px; background: white; border-radius: 50%;
+    font-size: 1.6rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .insp-card-top h4 { font-family: 'Syne', sans-serif; font-size: 1rem; color: white; font-weight: 700; }
+  .insp-card-top .card-sub { font-size: 0.75rem; color: rgba(255,255,255,0.8); margin-top: 0.15rem; }
   .insp-card-body { padding: 1.2rem 1.5rem; }
   .insp-card-body p { font-size: 0.9rem; line-height: 1.7; color: #3a3030; margin-bottom: 1rem; }
 
-  /* ── EXPANDE ── */
-  #screen-expande .content {
-    padding: 1.5rem;
-    max-width: 760px;
-    margin: 0 auto;
-    width: 100%;
+  .reflexion-box {
+    background: #fff8f0; border: 2px solid var(--sun); border-radius: 20px;
+    padding: 1.5rem; margin-top: 2rem;
   }
+  .reflexion-box h4 { font-family: 'Syne', sans-serif; color: #9a3412; margin-bottom: 0.8rem; }
+  .reflexion-box p  { font-size: 0.9rem; line-height: 1.6; color: #431407; margin-bottom: 1rem; }
+  .reflexion-box textarea {
+    width: 100%; border: 2px solid #fed7aa; border-radius: 12px;
+    padding: 0.8rem; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+    resize: vertical; outline: none; background: #fffbf5;
+  }
+  .reflexion-box textarea:focus { border-color: var(--coral); }
 
+  /* ── EXPANDE ── */
   .expande-intro {
     background: linear-gradient(135deg, var(--leaf), #1b4332);
-    color: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .expande-intro::before {
-    content: '⚡';
-    position: absolute; right: 1.5rem; top: 1.2rem;
-    font-size: 3rem; opacity: 0.25;
-  }
-  .expande-intro h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .expande-intro p { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
-
-  .scenario-box {
-    background: #f0faf4;
-    border: 2px solid #6fcf97;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .scenario-box h4 { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--leaf); margin-bottom: 0.8rem; }
-  .scenario-box p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.2rem; }
-
-  /* ── CONTRIBUYE ── */
-  #screen-contribuye .content {
-    padding: 1.5rem;
-    max-width: 760px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .contribuye-intro {
-    background: linear-gradient(135deg, #7209b7, #480ca8);
-    color: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    color: white; border-radius: 20px; padding: 2rem; margin-bottom: 2rem;
     position: relative; overflow: hidden;
   }
-  .contribuye-intro::before {
-    content: '✏️';
-    position: absolute; right: 1.5rem; top: 1.2rem;
-    font-size: 3rem; opacity: 0.25;
+  .expande-intro::before { content: '⚡'; position: absolute; right: 1.5rem; top: 1.2rem; font-size: 3rem; opacity: 0.25; }
+  .expande-intro h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .expande-intro p  { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
+
+  .scenario-box {
+    background: #f0faf4; border: 2px solid #6fcf97; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem;
   }
+  .scenario-box h4 { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--leaf); margin-bottom: 0.8rem; }
+  .scenario-box p  { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.8rem; }
+
+  .open-box {
+    background: #f0faf4; border: 2px solid #6fcf97; border-radius: 20px; padding: 1.5rem; margin-top: 1.5rem;
+  }
+  .open-box h4 { font-family: 'Syne', sans-serif; color: var(--leaf); margin-bottom: 0.8rem; font-size: 1rem; }
+  .open-box p  { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; color: #1b3a29; }
+  .open-box textarea {
+    width: 100%; border: 2px solid #b7e4c7; border-radius: 12px;
+    padding: 0.8rem; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+    resize: vertical; outline: none; background: white;
+  }
+  .open-box textarea:focus { border-color: var(--leaf); }
+
+  /* ── CONTRIBUYE ── */
+  .contribuye-intro {
+    background: linear-gradient(135deg, #7209b7, #480ca8);
+    color: white; border-radius: 20px; padding: 2rem; margin-bottom: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .contribuye-intro::before { content: '✏️'; position: absolute; right: 1.5rem; top: 1.2rem; font-size: 3rem; opacity: 0.25; }
   .contribuye-intro h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .contribuye-intro p { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
+  .contribuye-intro p  { font-size: 0.95rem; opacity: 0.85; line-height: 1.6; }
 
   .reto-context {
-    background: white;
-    border: 2px solid #d8b4fe;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    background: white; border: 2px solid #d8b4fe; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem;
   }
   .reto-context h4 { font-family: 'Syne', sans-serif; color: #6d28d9; margin-bottom: 0.8rem; font-size: 1.05rem; }
-  .reto-context p { font-size: 0.95rem; line-height: 1.7; }
+  .reto-context p  { font-size: 0.95rem; line-height: 1.7; }
 
-  .req-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin: 1.5rem 0;
+  /* Ferguson video reminder */
+  .ferguson-reminder {
+    background: #f5f3ff; border: 2px solid #c4b5fd; border-radius: 16px;
+    padding: 1.2rem 1.5rem; margin-bottom: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.8rem;
   }
-  .req-item {
-    background: #f5f3ff;
-    border-radius: 12px;
-    padding: 1rem 1.2rem;
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  .req-item .req-num {
-    background: #6d28d9;
-    color: white;
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    font-weight: 700;
-    font-size: 0.85rem;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
+  .ferguson-reminder p { font-size: 0.9rem; line-height: 1.6; color: #4c1d95; }
+
+  .req-list { display: flex; flex-direction: column; gap: 0.8rem; margin: 1.5rem 0; }
+  .req-item { background: #f5f3ff; border-radius: 12px; padding: 1rem 1.2rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .req-num {
+    background: #6d28d9; color: white; width: 28px; height: 28px;
+    border-radius: 50%; font-weight: 700; font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
   }
   .req-item p { font-size: 0.9rem; line-height: 1.6; color: #2d1b6e; }
 
-  /* Submission form */
-  .submit-form {
-    background: white;
-    border: 2px solid #d8b4fe;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+  /* MS Forms / QR section */
+  .forms-section {
+    background: linear-gradient(135deg, #f0f4ff, #e8eeff);
+    border: 2px solid #a5b4fc; border-radius: 20px;
+    padding: 1.5rem; margin-top: 1.5rem; text-align: center;
   }
-  .submit-form h4 { font-family: 'Syne', sans-serif; color: #6d28d9; margin-bottom: 1.2rem; font-size: 1rem; }
+  .forms-section h4 { font-family: 'Syne', sans-serif; color: #3730a3; margin-bottom: 0.8rem; font-size: 1.1rem; }
+  .forms-section p  { font-size: 0.9rem; line-height: 1.6; color: #312e81; margin-bottom: 1.2rem; }
 
-  .form-group { margin-bottom: 1.2rem; }
-  .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: #4c1d95; margin-bottom: 0.4rem; }
-  .form-group input, .form-group textarea, .form-group select {
-    width: 100%;
-    border: 2px solid #e9d5ff;
-    border-radius: 12px;
-    padding: 0.8rem 1rem;
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.9rem;
-    color: var(--dark);
-    background: #faf5ff;
-    transition: border-color 0.2s;
-    outline: none;
-    resize: vertical;
+  .qr-placeholder {
+    width: 180px; height: 180px;
+    background: white; border: 3px solid #4f46e5; border-radius: 16px;
+    margin: 0 auto 1rem;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+    font-size: 0.8rem; color: #4f46e5; font-weight: 700;
   }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-    border-color: #7c3aed;
-    background: white;
-  }
+  .qr-placeholder span { font-size: 3.5rem; }
 
-  .btn-submit {
-    width: 100%;
-    background: linear-gradient(135deg, #7209b7, #480ca8);
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 1rem;
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
+  .btn-msforms {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: #4f46e5; color: white; text-decoration: none;
+    padding: 0.9rem 1.8rem; border-radius: 999px;
+    font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
     transition: all 0.3s;
   }
-  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(114,9,183,0.35); }
+  .btn-msforms:hover { background: #3730a3; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,0.35); }
 
-  .success-msg {
-    display: none;
-    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-    border: 2px solid #059669;
-    border-radius: 20px;
-    padding: 2rem;
-    text-align: center;
-    margin-top: 1.5rem;
-    animation: slideIn 0.4s;
-  }
-  .success-msg h4 { font-family: 'Syne', sans-serif; color: #065f46; font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .success-msg p { color: #064e3b; font-size: 0.9rem; }
-
-  /* Progress bar at bottom of explora */
-  .progress-bar-wrap {
-    background: #e0f2fe;
-    border-radius: 999px;
-    height: 10px;
-    margin: 1.5rem 0 0.5rem;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    background: linear-gradient(90deg, var(--ocean), var(--sky));
-    height: 100%;
-    border-radius: 999px;
-    transition: width 0.5s ease;
-  }
-  .progress-label { font-size: 0.8rem; color: var(--ocean); font-weight: 700; text-align: right; }
-
-  /* Floating nav */
+  /* ── FLOATING NAV ── */
   .nav-footer {
-    position: sticky;
-    bottom: 0;
-    background: white;
-    border-top: 2px solid #e0eaec;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.8rem 0.5rem;
-    z-index: 50;
+    position: sticky; bottom: 0;
+    background: white; border-top: 2px solid #e0eaec;
+    display: flex; justify-content: space-around;
+    padding: 0.8rem 0.5rem; z-index: 50;
   }
   .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.2rem;
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: #8ab0b5;
-    cursor: pointer;
-    transition: color 0.2s;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+    font-size: 0.65rem; font-weight: 700; color: #8ab0b5; cursor: pointer;
+    transition: color 0.2s; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem; border-radius: 12px;
   }
   .nav-item .nav-icon { font-size: 1.3rem; }
   .nav-item.active, .nav-item:hover { color: var(--ocean); background: #f0fafb; }
 
-  /* Utilities */
-  .mt1 { margin-top: 1rem; }
-  .mt2 { margin-top: 1.5rem; }
-  .chip {
-    display: inline-block;
-    background: var(--sand);
-    color: var(--dark);
-    padding: 0.25rem 0.8rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-
   @media (max-width: 480px) {
     .topics-grid { grid-template-columns: 1fr 1fr; }
+    .home-video-wrap { border-radius: 12px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ─────────────── HOME ─────────────── -->
+<!-- ═══════════════════════════════════════
+     HOME / SPLASH
+════════════════════════════════════════ -->
 <div id="screen-home">
   <div class="rain-drops" id="rainContainer"></div>
 
   <div class="badge-project">ELA4ATTRACT · ERASMUS+ · App STEAM</div>
 
+  <!-- Island SVG -->
   <svg class="island-img" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
-    <!-- Water -->
     <ellipse cx="100" cy="130" rx="95" ry="20" fill="#006D77" opacity="0.7"/>
-    <!-- Island -->
     <ellipse cx="100" cy="118" rx="72" ry="18" fill="#F4E1C1"/>
-    <!-- Hill -->
     <ellipse cx="85" cy="100" rx="45" ry="28" fill="#2D6A4F"/>
-    <!-- House -->
     <rect x="88" y="85" width="22" height="18" fill="#E29578"/>
     <polygon points="88,85 110,85 99,72" fill="#F4A261"/>
-    <!-- Roof detail -->
     <rect x="96" y="88" width="6" height="10" fill="#006D77" opacity="0.6"/>
-    <!-- Tree left -->
     <rect x="62" y="94" width="4" height="20" fill="#7a5c3c"/>
     <circle cx="64" cy="90" r="12" fill="#52b788"/>
-    <!-- Tree right -->
     <rect x="126" y="96" width="4" height="18" fill="#7a5c3c"/>
     <circle cx="128" cy="92" r="10" fill="#40916c"/>
-    <!-- Rain drops -->
     <line x1="40" y1="30" x2="38" y2="48" stroke="#90E0EF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
     <line x1="70" y1="18" x2="68" y2="36" stroke="#90E0EF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
     <line x1="120" y1="22" x2="118" y2="40" stroke="#90E0EF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
     <line x1="155" y1="28" x2="153" y2="46" stroke="#90E0EF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-    <!-- Tank -->
     <rect x="55" y="98" width="14" height="16" rx="3" fill="#006D77"/>
     <rect x="57" y="96" width="10" height="4" rx="2" fill="#48CAE4"/>
   </svg>
@@ -670,44 +582,74 @@
   <h1>Cosechar lluvia,<br><span>diseñar futuro</span></h1>
   <p>Descubre cómo la ingeniería transforma el agua de lluvia en una solución para la isla de Providencia, Colombia.</p>
 
+  <!-- FIX #5: Video de presentación del caso integrado -->
+  <div class="home-video-wrap">
+    <iframe
+      src="https://drive.google.com/file/d/1z4m3QC1BN4mEud-TovGqUpZjsT81KioU/preview"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- FIX #2: ningún botón tiene clase .active en reposo -->
   <div class="btn-sections">
-    <button class="btn-section active" onclick="goTo('explora')">🔍 Explora</button>
+    <button class="btn-section" onclick="goTo('explora')">🔍 Explora</button>
     <button class="btn-section" onclick="goTo('inspirate')">⭐ Inspírate</button>
     <button class="btn-section" onclick="goTo('expande')">⚡ Expande</button>
     <button class="btn-section" onclick="goTo('contribuye')">✏️ Contribuye</button>
   </div>
 </div>
 
-<!-- ─────────────── EXPLORA ─────────────── -->
+<!-- ═══════════════════════════════════════
+     EXPLORA
+════════════════════════════════════════ -->
 <div id="screen-explora" class="screen">
   <div class="app-header">
     <button class="back-btn" onclick="goHome()">←</button>
     <h2>Explora las claves del reto</h2>
     <span class="section-pill" style="background:#48CAE4;color:#00303A;">EXPLORA</span>
   </div>
-  <div class="content" style="flex:1;overflow-y:auto;padding-bottom:80px;">
 
-    <div class="section-intro">
+  <div class="content">
+    <div class="section-intro" style="--before-content:'💧';">
       <h3>¿Cómo cosechar agua de lluvia?</h3>
-      <p>Explora los temas clave de esta historia en el orden que prefieras. Cada tarjeta te lleva a un video y recursos para entender el reto.</p>
+      <p>Explora los temas clave en el orden que prefieras. Haz clic en una tarjeta para ver el video directamente aquí.</p>
     </div>
 
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="exploraProgress" style="width:0%"></div>
     </div>
-    <div class="progress-label" id="exploraProgressLabel">0 de 8 temas visitados</div>
+    <div class="progress-label" id="exploraProgressLabel">0 de 7 temas visitados</div>
 
+    <!-- Tarjetas de temas -->
     <div class="topics-grid mt1" id="topicsGrid"></div>
+
+    <!-- FIX #3 & #4: Reproductor integrado - se actualiza al elegir tarjeta -->
+    <div class="video-placeholder" id="videoPlaceholder">
+      <span>▶</span>
+      <p>Elige un tema para ver el video aquí</p>
+    </div>
+    <div id="videoPlayerWrap" style="display:none;" class="video-player-wrap">
+      <iframe id="videoIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+
+    <!-- Descripción del tema seleccionado -->
     <div id="topicDetail"></div>
 
     <!-- QUIZ -->
-    <div class="quiz-header mt2">
+    <div class="quiz-header" style="margin-top:2rem;">
       <h3>🧠 Preguntas clave</h3>
-      <span class="quiz-counter" id="quizCounter">0 / 8</span>
+      <span class="quiz-counter" id="quizCounter">0 / 7</span>
     </div>
-    <div id="quizContainer"></div>
 
+    <!-- FIX #6: Aviso sobre recopilación de datos -->
+    <div class="data-notice">
+      <strong>📊 Tus respuestas importan:</strong> Al terminar todas las secciones, encontrarás un formulario en <em>Contribuye</em> donde podrás registrar tus datos y tus respuestas quedarán guardadas para el equipo investigador.
+    </div>
+
+    <div id="quizContainer"></div>
   </div>
+
   <div class="nav-footer">
     <div class="nav-item active" onclick="goTo('explora')"><span class="nav-icon">🔍</span>Explora</div>
     <div class="nav-item" onclick="goTo('inspirate')"><span class="nav-icon">⭐</span>Inspírate</div>
@@ -716,15 +658,17 @@
   </div>
 </div>
 
-<!-- ─────────────── INSPÍRATE ─────────────── -->
+<!-- ═══════════════════════════════════════
+     INSPÍRATE
+════════════════════════════════════════ -->
 <div id="screen-inspirate" class="screen">
   <div class="app-header">
     <button class="back-btn" onclick="goHome()">←</button>
     <h2>Inspírate con personas reales</h2>
     <span class="section-pill" style="background:#F4A261;color:#4a1500;">INSPÍRATE</span>
   </div>
-  <div class="content" style="flex:1;overflow-y:auto;padding-bottom:80px;">
 
+  <div class="content">
     <div class="insp-intro">
       <h3>Conoce personas que transforman este reto en una oportunidad</h3>
       <p>Ingenieros, estudiantes y comunidades que usan la ciencia y la creatividad para garantizar el acceso al agua.</p>
@@ -732,59 +676,69 @@
 
     <div class="insp-cards">
 
+      <!-- Tarjeta 1 – FIX #7: Venezuela (no Bolivia ni Chile) -->
       <div class="insp-card">
         <div class="insp-card-top">
           <div class="person-avatar">💧</div>
           <div>
             <h4>Laurencio Sánchez – Lata de Agua</h4>
-            <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Innovador social · Bolivia / Chile</div>
+            <div class="card-sub">Innovador social · Venezuela</div>
           </div>
         </div>
         <div class="insp-card-body">
           <p>En 2020, Laurencio Sánchez creó <strong>Lata de Agua</strong>: un modelo de captación y filtrado de agua de lluvia que provee el recurso a comunidades en riesgo, integrando eficiencia energética, arquitectura solar pasiva y alternativas innovadoras para el uso del agua.</p>
-          <p>Descubre cómo una escuela convierte la lluvia en agua útil para irrigar cultivos, logrando una solución donde la ciencia, la ingeniería y la innovación se unen.</p>
-          <a class="video-link" href="https://youtu.be/YL1Xq1AuuLc" target="_blank">▶ Ver historia</a>
+          <p>Descubre cómo una escuela convierte la lluvia en agua útil para irrigar cultivos, donde la ciencia, la ingeniería y la innovación se unen para transformar un reto en oportunidad.</p>
+          <!-- FIX #3: video integrado -->
+          <div class="video-player-wrap" style="margin-top:1rem;">
+            <iframe src="https://www.youtube.com/embed/YL1Xq1AuuLc" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
 
+      <!-- Tarjeta 2 -->
       <div class="insp-card">
         <div class="insp-card-top">
           <div class="person-avatar">🏙️</div>
           <div>
             <h4>Ciudades sensibles al agua</h4>
-            <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Diseño urbano sostenible</div>
+            <div class="card-sub">Diseño urbano sostenible</div>
           </div>
         </div>
         <div class="insp-card-body">
-          <p>Mira cómo las ciudades pueden aprender a convivir con el agua en lugar de luchar contra ella. Este video muestra soluciones urbanas inteligentes que capturan, filtran y reutilizan el agua de lluvia, cuidando el ambiente y mejorando la vida de las personas.</p>
-          <a class="video-link" href="https://youtu.be/xhzjwQD3clU" target="_blank">▶ Ver video</a>
+          <p>Mira cómo las ciudades pueden aprender a convivir con el agua en lugar de luchar contra ella. Soluciones urbanas inteligentes que capturan, filtran y reutilizan el agua de lluvia, cuidando el ambiente y mejorando la vida de las personas.</p>
+          <div class="video-player-wrap" style="margin-top:1rem;">
+            <iframe src="https://www.youtube.com/embed/xhzjwQD3clU" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
 
+      <!-- Tarjeta 3 -->
       <div class="insp-card">
         <div class="insp-card-top">
           <div class="person-avatar">🌊</div>
           <div>
             <h4>Conectados por el agua</h4>
-            <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Ciencia ciudadana · Comunidad</div>
+            <div class="card-sub">Ciencia ciudadana · Comunidad</div>
           </div>
         </div>
         <div class="insp-card-body">
-          <p>En casas, escuelas o espacios públicos, cada persona puede influir en el ciclo del agua. A través de la ciencia, la ingeniería y el diseño urbano, veremos cómo las ciudades pueden volverse más "sensibles al agua", cuidando este recurso y mejorando la vida de todos.</p>
-          <a class="video-link" href="https://youtu.be/Y1SdJgg00ec" target="_blank">▶ Ver video</a>
+          <p>En casas, escuelas o espacios públicos, cada persona puede influir en el ciclo del agua. A través de la ciencia, la ingeniería y el diseño urbano, las ciudades pueden volverse más "sensibles al agua", cuidando este recurso y mejorando la vida de todos.</p>
+          <div class="video-player-wrap" style="margin-top:1rem;">
+            <iframe src="https://www.youtube.com/embed/Y1SdJgg00ec" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Reflexión rápida -->
-    <div style="background:#fff8f0;border:2px solid var(--sun);border-radius:20px;padding:1.5rem;margin-top:2rem;">
-      <h4 style="font-family:'Syne',sans-serif;color:#9a3412;margin-bottom:0.8rem;">💬 ¿Te inspiraste?</h4>
-      <p style="font-size:0.9rem;line-height:1.6;color:#431407;margin-bottom:1rem;">Después de ver estos casos reales, ¿qué te llama más la atención? ¿Podrías imaginar un proyecto similar en tu ciudad o colegio?</p>
-      <textarea id="inspiraReflexion" rows="3" placeholder="Escribe aquí tu reflexión..." style="width:100%;border:2px solid #fed7aa;border-radius:12px;padding:0.8rem;font-family:'Nunito',sans-serif;font-size:0.9rem;resize:vertical;outline:none;background:#fffbf5;"></textarea>
+    <!-- FIX #9: Reflexión capturada en el formulario de Contribuye -->
+    <div class="reflexion-box">
+      <h4>💬 ¿Te inspiraste?</h4>
+      <p>Después de ver estos casos reales, ¿qué te llama más la atención? ¿Podrías imaginar un proyecto similar en tu ciudad o colegio? <strong>Escribe tu reflexión — la compartirás en el formulario final.</strong></p>
+      <textarea id="inspirateReflexion" rows="4" placeholder="Escribe aquí tu reflexión..."></textarea>
     </div>
-
   </div>
+
   <div class="nav-footer">
     <div class="nav-item" onclick="goTo('explora')"><span class="nav-icon">🔍</span>Explora</div>
     <div class="nav-item active" onclick="goTo('inspirate')"><span class="nav-icon">⭐</span>Inspírate</div>
@@ -793,15 +747,17 @@
   </div>
 </div>
 
-<!-- ─────────────── EXPANDE ─────────────── -->
+<!-- ═══════════════════════════════════════
+     EXPANDE
+════════════════════════════════════════ -->
 <div id="screen-expande" class="screen">
   <div class="app-header">
     <button class="back-btn" onclick="goHome()">←</button>
     <h2>Expande tu pensamiento</h2>
     <span class="section-pill" style="background:#52b788;color:#1b3a29;">EXPANDE</span>
   </div>
-  <div class="content" style="flex:1;overflow-y:auto;padding-bottom:80px;">
 
+  <div class="content">
     <div class="expande-intro">
       <h3>Energía para el agua</h3>
       <p>Resuelve un problema real de ingeniería aplicando lo que exploraste. Piensa como un/a ingeniero/a.</p>
@@ -813,17 +769,16 @@
       <p><strong style="color:var(--leaf);">¿Qué innovación tecnológica es más adecuada para garantizar el acceso al agua en la escuela?</strong></p>
     </div>
 
-    <!-- Expande quiz -->
     <div id="expandeQuiz"></div>
 
-    <!-- Open reflection -->
-    <div style="background:#f0faf4;border:2px solid #6fcf97;border-radius:20px;padding:1.5rem;margin-top:1.5rem;">
-      <h4 style="font-family:'Syne',sans-serif;color:var(--leaf);margin-bottom:0.8rem;">🔬 Para profundizar</h4>
-      <p style="font-size:0.9rem;line-height:1.6;margin-bottom:1rem;color:#1b3a29;">Investiga: ¿Qué otros problemas de energía tienen las islas o comunidades alejadas de las ciudades? ¿Qué soluciones tecnológicas les pueden ayudar?</p>
-      <textarea rows="3" placeholder="Escribe tus ideas aquí..." style="width:100%;border:2px solid #b7e4c7;border-radius:12px;padding:0.8rem;font-family:'Nunito',sans-serif;font-size:0.9rem;resize:vertical;outline:none;background:white;"></textarea>
+    <!-- FIX #9: texto de reflexión se guardará en el formulario de Contribuye -->
+    <div class="open-box">
+      <h4>🔬 Para profundizar</h4>
+      <p>Investiga: ¿Qué otros problemas de energía tienen las islas o comunidades alejadas de las ciudades? ¿Qué soluciones tecnológicas les pueden ayudar? <strong>Anota tus ideas — las incluirás en el formulario final.</strong></p>
+      <textarea id="expandeReflexion" rows="4" placeholder="Escribe tus ideas aquí..."></textarea>
     </div>
-
   </div>
+
   <div class="nav-footer">
     <div class="nav-item" onclick="goTo('explora')"><span class="nav-icon">🔍</span>Explora</div>
     <div class="nav-item" onclick="goTo('inspirate')"><span class="nav-icon">⭐</span>Inspírate</div>
@@ -832,15 +787,17 @@
   </div>
 </div>
 
-<!-- ─────────────── CONTRIBUYE ─────────────── -->
+<!-- ═══════════════════════════════════════
+     CONTRIBUYE
+════════════════════════════════════════ -->
 <div id="screen-contribuye" class="screen">
   <div class="app-header">
     <button class="back-btn" onclick="goHome()">←</button>
     <h2>¡Tu turno! Contribuye con tu diseño</h2>
     <span class="section-pill" style="background:#c77dff;color:#240046;">CONTRIBUYE</span>
   </div>
-  <div class="content" style="flex:1;overflow-y:auto;padding-bottom:80px;">
 
+  <div class="content">
     <div class="contribuye-intro">
       <h3>Soluciones actuales para los desafíos de hoy</h3>
       <p>Los ingenieros y personas creativas como tú pueden generar soluciones óptimas a los problemas que enfrenta la sociedad y el medio ambiente.</p>
@@ -851,122 +808,75 @@
       <p>Diseñar una cisterna o tanque que permita almacenar <strong>25 metros cúbicos</strong> de agua lluvia durante los meses de invierno (septiembre a noviembre) y proponer el mantenimiento necesario para que el agua se mantenga limpia durante los meses de mayor verano (diciembre a mayo).</p>
     </div>
 
+    <!-- FIX #10: Recordatorio del video de la señora Fergusson -->
+    <div class="ferguson-reminder">
+      <p>🎬 <strong>Recuerda el video de la señora Fergusson</strong>, habitante raizal de Providencia, que ya viste en la sección <em>Explora</em>. Fue fundamental para entender el problema del agua en la isla. ¿Quieres verlo de nuevo antes de diseñar?</p>
+      <div class="video-player-wrap" id="fergusonPlayer" style="display:none;">
+        <iframe src="https://drive.google.com/file/d/1kWzB0fmv57s-2-DnFXpuQHmnzcu_t6O8/preview" allow="autoplay" allowfullscreen></iframe>
+      </div>
+      <button class="video-link secondary" style="align-self:flex-start;" onclick="toggleFerguson()">▶ Ver video de nuevo</button>
+    </div>
+
     <h4 style="font-family:'Syne',sans-serif;color:#4c1d95;margin-bottom:1rem;">📋 Requisitos de diseño</h4>
     <div class="req-list">
-      <div class="req-item">
-        <div class="req-num">1</div>
-        <p><strong>Entiende el contexto:</strong> Mira el video de la señora Fergusson, habitante raizal de Providencia, para comprender el problema del agua en la isla.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">2</div>
-        <p><strong>Diseña el tanque:</strong> Crea un tanque estéticamente atractivo para las casas coloridas de Providencia, eligiendo la forma, el color y el material adecuados para mantener el agua fresca.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">3</div>
-        <p><strong>Recolecta el agua:</strong> Diseña un sistema de canaletas o tuberías que aproveche toda el agua de lluvia del techo sin desperdiciar ni una gota.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">4</div>
-        <p><strong>Primer lavado:</strong> Investiga cómo evitar que la primera lluvia contaminada entre al tanque y propone un sistema que la descarte o filtre.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">5</div>
-        <p><strong>Tapa y acceso:</strong> Diseña una tapa que proteja el agua del sol y la suciedad, con una salida práctica que permita usar el agua sin destaparlo.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">6</div>
-        <p><strong>Ventilación:</strong> Incorpora un sistema que permita la circulación de aire fresco dentro del tanque; explora el <em>efecto Venturi</em> como inspiración.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">7</div>
-        <p><strong>Limpieza:</strong> Propón un método sencillo y seguro para limpiar el tanque una o dos veces al año.</p>
-      </div>
-      <div class="req-item">
-        <div class="req-num">8</div>
-        <p><strong>Presentación:</strong> Muestra tu diseño en una maqueta o plano, acompañado de un informe corto que explique tus decisiones técnicas.</p>
-      </div>
+      <div class="req-item"><div class="req-num">1</div><p><strong>Entiende el contexto:</strong> Recuerda el video de la señora Fergusson para comprender el problema del agua en la isla.</p></div>
+      <div class="req-item"><div class="req-num">2</div><p><strong>Diseña el tanque:</strong> Crea un tanque estéticamente atractivo para las casas coloridas de Providencia, eligiendo la forma, el color y el material adecuados para mantener el agua fresca.</p></div>
+      <div class="req-item"><div class="req-num">3</div><p><strong>Recolecta el agua:</strong> Diseña un sistema de canaletas o tuberías que aproveche toda el agua de lluvia del techo sin desperdiciar ni una gota.</p></div>
+      <div class="req-item"><div class="req-num">4</div><p><strong>Primer lavado:</strong> Investiga cómo evitar que la primera lluvia contaminada entre al tanque y propone un sistema que la descarte o filtre.</p></div>
+      <div class="req-item"><div class="req-num">5</div><p><strong>Tapa y acceso:</strong> Diseña una tapa que proteja el agua del sol y la suciedad, con una salida práctica que permita usar el agua sin destaparlo.</p></div>
+      <div class="req-item"><div class="req-num">6</div><p><strong>Ventilación:</strong> Incorpora un sistema que permita la circulación de aire fresco dentro del tanque; explora el <em>efecto Venturi</em> como inspiración.</p></div>
+      <div class="req-item"><div class="req-num">7</div><p><strong>Limpieza:</strong> Propón un método sencillo y seguro para limpiar el tanque una o dos veces al año.</p></div>
+      <div class="req-item"><div class="req-num">8</div><p><strong>Presentación:</strong> Muestra tu diseño en una maqueta o plano, acompañado de un informe corto que explique tus decisiones técnicas.</p></div>
     </div>
 
-    <!-- Submission form -->
-    <div class="submit-form">
-      <h4>📤 Envía tu propuesta</h4>
+    <!-- FIX #11: Sección de envío mediante Microsoft Forms -->
+    <div class="forms-section">
+      <h4>📤 Envía tu diseño y respuestas</h4>
+      <p>
+        Para poder recopilar tus respuestas, reflexiones y el foto/dibujo de tu diseño, usamos un formulario externo de Microsoft Forms donde podrás adjuntar imágenes. Escanea el código QR o toca el botón para abrirlo.
+      </p>
 
-      <div class="form-group">
-        <label>Nombre completo *</label>
-        <input type="text" id="f-nombre" placeholder="Tu nombre y apellido">
-      </div>
-      <div class="form-group">
-        <label>Colegio / Institución</label>
-        <input type="text" id="f-colegio" placeholder="Nombre de tu colegio">
-      </div>
-      <div class="form-group">
-        <label>Grado / Curso</label>
-        <input type="text" id="f-grado" placeholder="Ej: 10°, 11°">
-      </div>
-      <div class="form-group">
-        <label>Correo electrónico</label>
-        <input type="email" id="f-email" placeholder="tu@correo.com">
-      </div>
-      <div class="form-group">
-        <label>Forma del tanque que elegiste</label>
-        <select id="f-forma">
-          <option value="">Selecciona una forma...</option>
-          <option>Cilíndrica</option>
-          <option>Rectangular / cúbica</option>
-          <option>Esférica</option>
-          <option>Irregular / diseño propio</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Material principal</label>
-        <select id="f-material">
-          <option value="">Selecciona un material...</option>
-          <option>Concreto / cemento</option>
-          <option>Plástico (HDPE)</option>
-          <option>Fibra de vidrio</option>
-          <option>Acero inoxidable</option>
-          <option>Madera tratada</option>
-          <option>Material reciclado</option>
-          <option>Otro</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Describe tu sistema de primer lavado (filtro inicial)</label>
-        <textarea id="f-filtro" rows="3" placeholder="¿Cómo evitarías que la primera lluvia sucia entre al tanque?"></textarea>
-      </div>
-      <div class="form-group">
-        <label>¿Qué fue lo más difícil del diseño?</label>
-        <textarea id="f-dificil" rows="3" placeholder="Cuéntanos sobre los retos que encontraste..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>¿Algo en este reto te hizo pensar en estudiar ingeniería?</label>
-        <select id="f-motivacion">
-          <option value="">Selecciona...</option>
-          <option>Sí, definitivamente</option>
-          <option>Sí, un poco más que antes</option>
-          <option>Sigue igual que antes</option>
-          <option>No, no es para mí</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>¿Eres niña o niño?</label>
-        <select id="f-genero">
-          <option value="">Prefiero no decir</option>
-          <option>Niña / Mujer</option>
-          <option>Niño / Hombre</option>
-          <option>Otro</option>
-        </select>
+      <!-- ════════════════════════════════════════════════
+           INSTRUCCIÓN PARA EL EQUIPO:
+           1. Crea el formulario en Microsoft Forms con estos campos:
+              - Nombre completo
+              - Colegio / institución
+              - Grado / curso
+              - Correo electrónico (opcional)
+              - ¿Eres niña, niño u otro? (opción múltiple)
+              - Puntaje en el quiz de Explora (número de respuestas correctas de 7)
+              - ¿Cuál fue la pregunta del quiz que más te costó? (texto corto)
+              - Tu reflexión de Inspírate (texto largo)
+              - Tu reflexión de Expande (texto largo)
+              - Forma del tanque elegida (opción múltiple)
+              - Material principal (opción múltiple)
+              - Describe tu sistema de primer lavado (texto largo)
+              - ¿Qué fue lo más difícil del diseño? (texto largo)
+              - Sube una foto o dibujo de tu diseño (subida de archivo)
+              - ¿Algo en este reto te hizo pensar más en estudiar ingeniería? (escala 1-5)
+           2. Genera el enlace para compartir el formulario.
+           3. Genera un QR de ese enlace (puedes usar qr-code-generator.com o similares).
+           4. En este archivo, reemplaza AQUI_VA_TU_ENLACE_DE_MSFORMS con el enlace real
+              y reemplaza la imagen del QR placeholder con tu QR real.
+      ════════════════════════════════════════════════ -->
+
+      <div class="qr-placeholder" id="qrBox">
+        <span>📱</span>
+        <p style="text-align:center;padding:0 1rem;">Aquí va el<br>código QR</p>
+        <!-- Para reemplazar: <img src="tu-qr.png" style="width:100%;border-radius:12px;"> -->
       </div>
 
-      <button class="btn-submit" onclick="submitForm()">🚀 Enviar mi diseño</button>
-    </div>
+      <a class="btn-msforms" href="AQUI_VA_TU_ENLACE_DE_MSFORMS" target="_blank" id="msFormsLink">
+        📋 Abrir formulario
+      </a>
 
-    <div class="success-msg" id="successMsg">
-      <h4>🎉 ¡Felicitaciones!</h4>
-      <p>Tu propuesta de diseño ha sido registrada. El equipo ELA4ATTRACT la revisará. ¡Eres parte de la solución!</p>
+      <p style="margin-top:1rem;font-size:0.8rem;color:#4338ca;">
+        En el formulario podrás adjuntar la foto o dibujo de tu diseño del tanque.
+      </p>
     </div>
 
   </div>
+
   <div class="nav-footer">
     <div class="nav-item" onclick="goTo('explora')"><span class="nav-icon">🔍</span>Explora</div>
     <div class="nav-item" onclick="goTo('inspirate')"><span class="nav-icon">⭐</span>Inspírate</div>
@@ -975,19 +885,83 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
 <script>
-// ── DATA ──
+// ──────────────────────────────────────
+// DATA
+// ──────────────────────────────────────
+
+// Helper: converts a YouTube watch URL or youtu.be URL to embed URL
+function ytEmbed(url) {
+  // youtu.be/ID or youtu.be/ID?t=N
+  let m = url.match(/youtu\.be\/([^?&]+)/);
+  if (m) {
+    const t = url.match(/[?&]t=(\d+)/);
+    return 'https://www.youtube.com/embed/' + m[1] + (t ? '?start=' + t[1] : '');
+  }
+  // youtube.com/watch?v=ID
+  m = url.match(/[?&]v=([^&]+)/);
+  if (m) {
+    const t = url.match(/[?&]t=(\d+)/);
+    return 'https://www.youtube.com/embed/' + m[1] + (t ? '?start=' + t[1] : '');
+  }
+  // Google Drive view link → preview embed
+  m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (m) {
+    return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+  }
+  return url; // fallback
+}
+
+// FIX #8: "El valor de cada gota" eliminado → 7 temas
 const TOPICS = [
-  { id: 0, icon: '🌧️', title: '¿Cómo cosechar agua de lluvia?', desc: 'Del cielo al tanque', text: 'Descubre cómo una ciudad de Chile usa la ciencia y la tecnología para enfrentar la falta de agua: diseñaron sistemas que recolectan y reutilizan el agua de lluvia y crearon espacios verdes inteligentes para cuidar el ambiente.', url: 'https://youtu.be/BN3a_FOIszw' },
-  { id: 1, icon: '🪣', title: 'Del cielo al tanque', desc: 'Sistema de captación en Bolivia', text: 'En este video conocerás una idea genial desde la ciencia y la tecnología: un sistema que utilizan en una ciudad de Bolivia para juntar y guardar el agua de lluvia para volver a usarla en la casa o la escuela.', url: 'https://youtu.be/km3NatSX6ZU?t=183' },
-  { id: 2, icon: '⚖️', title: 'El agua, ¿derecho o privilegio?', desc: 'Derecho Humano al Agua', text: 'Conoce el concepto del Derecho Humano al Agua: ¿por qué todas las personas deberían tener acceso a agua limpia y segura?', url: 'https://youtu.be/wPlqVyT0zgk' },
-  { id: 3, icon: '🌍', title: 'Al agua en tus manos', desc: 'Cambio climático y acción', text: 'Entérate qué puedes hacer frente a la falta de agua causada por el cambio climático y cómo la ciencia y la tecnología pueden ayudarte a crear soluciones.', url: 'https://www.youtube.com/watch?v=qisKAvD18RM&t=68s' },
-  { id: 4, icon: '🏺', title: 'Tecnología ancestral', desc: 'Cisternas raizales de Providencia', text: 'Descubre el valor de las antiguas cisternas de la isla de Providencia para la conservación del agua limpia y fresca de manera sostenible y eficiente.', url: 'https://drive.google.com/file/d/1kWzB0fmv57s-2-DnFXpuQHmnzcu_t6O8/view?usp=sharing' },
-  { id: 5, icon: '💡', title: 'Ideas prácticas: agua limpia', desc: 'Mantenimiento del tanque', text: 'Consejos sencillos para que el agua del tanque se mantenga limpia.', url: 'https://www.youtube.com/watch?v=h6fKhiQ6Cvc&t=251s' },
-  { id: 6, icon: '🌱', title: 'Agua bajo tus pies', desc: 'Acuíferos y agua subterránea', text: 'Descubre por qué el agua que no vemos debajo de la tierra es tan importante para la vida. Aprende cómo funcionan los acuíferos y qué pasa cuando no los cuidamos.', url: 'https://youtu.be/dMQh3w8f5F4' },
-  { id: 7, icon: '💧', title: 'El valor de cada gota', desc: 'Conservación del agua cotidiana', text: 'Conoce por qué cada gota de agua cuenta y qué puedes hacer para proteger el agua que usamos todos los días.', url: 'https://www.youtubeeducation.com/watch?v=fuo4tfzcGp4' },
+  {
+    id: 0, icon: '🌧️',
+    title: '¿Cómo cosechar agua de lluvia?',
+    text: 'Descubre cómo una ciudad de Chile usa la ciencia y la tecnología para enfrentar la falta de agua: diseñaron sistemas que recolectan y reutilizan el agua de lluvia y crearon espacios verdes inteligentes para cuidar el ambiente.',
+    rawUrl: 'https://youtu.be/BN3a_FOIszw'
+  },
+  {
+    id: 1, icon: '🪣',
+    title: 'Del cielo al tanque',
+    text: 'En este video conocerás una idea genial desde la ciencia y la tecnología: un sistema que utilizan en una ciudad de Bolivia para juntar y guardar el agua de lluvia para volver a usarla en la casa o la escuela.',
+    rawUrl: 'https://youtu.be/km3NatSX6ZU?t=183'
+  },
+  {
+    id: 2, icon: '⚖️',
+    title: 'El agua, ¿derecho o privilegio?',
+    text: 'Conoce el concepto del Derecho Humano al Agua: ¿por qué todas las personas deberían tener acceso a agua limpia y segura?',
+    rawUrl: 'https://youtu.be/wPlqVyT0zgk'
+  },
+  {
+    id: 3, icon: '🌍',
+    title: 'Al agua en tus manos',
+    text: 'Entérate qué puedes hacer frente a la falta de agua causada por el cambio climático y cómo la ciencia y la tecnología pueden ayudarte a crear soluciones.',
+    rawUrl: 'https://www.youtube.com/watch?v=qisKAvD18RM&t=68s'
+  },
+  {
+    id: 4, icon: '🏺',
+    title: 'Tecnología ancestral',
+    text: 'Descubre el valor de las antiguas cisternas de la isla de Providencia para la conservación del agua limpia y fresca de manera sostenible y eficiente.',
+    rawUrl: 'https://drive.google.com/file/d/1kWzB0fmv57s-2-DnFXpuQHmnzcu_t6O8/view?usp=sharing'
+  },
+  {
+    id: 5, icon: '💡',
+    title: 'Ideas prácticas: agua limpia',
+    text: 'Consejos sencillos para que el agua del tanque se mantenga limpia.',
+    rawUrl: 'https://www.youtube.com/watch?v=h6fKhiQ6Cvc&t=251s'
+  },
+  {
+    id: 6, icon: '🌱',
+    title: 'Agua bajo tus pies',
+    text: 'Descubre por qué el agua que no vemos debajo de la tierra es tan importante para la vida. Aprende cómo funcionan los acuíferos y qué pasa cuando no los cuidamos.',
+    rawUrl: 'https://youtu.be/dMQh3w8f5F4'
+  },
 ];
 
+// FIX #8: 7 preguntas (eliminada la de "El valor de cada gota")
 const QUIZ = [
   {
     q: '¿Cuál es la forma más práctica y económica de recoger y almacenar el agua lluvia?',
@@ -1069,17 +1043,6 @@ const QUIZ = [
     correct: 1,
     feedback: 'Un buen sistema de agua en una isla tropical debe empezar por recoger el agua de lluvia de forma ordenada. La manera más efectiva es usar techos o superficies inclinadas que lleven el agua hacia un tanque o cisterna.'
   },
-  {
-    q: 'En una comunidad sin acceso a electricidad constante, ¿qué sistema sería mejor para bombear agua a un grifo?',
-    opts: [
-      'Una bomba conectada a paneles solares.',
-      'Una bomba manual que requiera esfuerzo físico constante.',
-      'Una bomba que funcione con agua de mar.',
-      'Pagar electricidad adicional aunque sea muy costosa.',
-    ],
-    correct: 0,
-    feedback: 'Instalar una bomba conectada a paneles solares es lo adecuado, porque el uso de energía solar es una alternativa renovable y sostenible. Es ideal para un lugar con altos costos eléctricos y cortes frecuentes.'
-  },
 ];
 
 const EXPANDE_Q = {
@@ -1091,16 +1054,20 @@ const EXPANDE_Q = {
     'Pagar electricidad adicional, aunque se vuelva muy costosa.',
   ],
   correct: 0,
-  feedback: 'Instalar una bomba conectada a paneles solares sería lo adecuado: el uso de energía solar es una alternativa renovable, sostenible y adecuada para un lugar con altos costos eléctricos y cortes frecuentes. Una bomba manual exige demasiado esfuerzo y no es práctica para un colegio. El agua de mar no puede emplearse en sistemas de bombeo debido a su salinidad.'
+  feedback: 'Instalar una bomba conectada a paneles solares es lo adecuado: el uso de energía solar es una alternativa renovable, sostenible y adecuada para un lugar con altos costos eléctricos y cortes frecuentes. Una bomba manual exige demasiado esfuerzo y no es práctica para un colegio. El agua de mar no puede emplearse en sistemas de bombeo debido a su salinidad.'
 };
 
-// ── STATE ──
-let visitedTopics = new Set();
-let openTopic = null;
-let quizAnswered = new Array(QUIZ.length).fill(null);
+// ──────────────────────────────────────
+// STATE
+// ──────────────────────────────────────
+let visitedTopics  = new Set();
+let selectedTopic  = null;
+let quizAnswered   = new Array(QUIZ.length).fill(null);
 let expandeAnswered = null;
 
-// ── INIT ──
+// ──────────────────────────────────────
+// INIT
+// ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   generateRain();
   renderTopics();
@@ -1108,6 +1075,9 @@ document.addEventListener('DOMContentLoaded', () => {
   renderExpandeQuiz();
 });
 
+// ──────────────────────────────────────
+// RAIN ANIMATION
+// ──────────────────────────────────────
 function generateRain() {
   const container = document.getElementById('rainContainer');
   for (let i = 0; i < 30; i++) {
@@ -1115,18 +1085,22 @@ function generateRain() {
     d.className = 'drop';
     d.style.left = Math.random() * 100 + '%';
     d.style.height = (40 + Math.random() * 80) + 'px';
-    d.style.animationDuration = (0.8 + Math.random() * 1.5) + 's';
-    d.style.animationDelay = (Math.random() * 2) + 's';
+    d.style.animationDuration  = (0.8 + Math.random() * 1.5) + 's';
+    d.style.animationDelay     = (Math.random() * 2) + 's';
     container.appendChild(d);
   }
 }
 
+// ──────────────────────────────────────
+// NAVIGATION
+// ──────────────────────────────────────
 function goTo(section) {
   document.getElementById('screen-home').style.display = 'none';
   ['explora','inspirate','expande','contribuye'].forEach(s => {
     const el = document.getElementById('screen-' + s);
     if (el) el.style.display = s === section ? 'flex' : 'none';
   });
+  window.scrollTo(0, 0);
 }
 
 function goHome() {
@@ -1135,13 +1109,20 @@ function goHome() {
     const el = document.getElementById('screen-' + s);
     if (el) el.style.display = 'none';
   });
+  window.scrollTo(0, 0);
 }
 
-// ── TOPICS ──
+// ──────────────────────────────────────
+// TOPICS & VIDEO PLAYER
+// ──────────────────────────────────────
 function renderTopics() {
   const grid = document.getElementById('topicsGrid');
   grid.innerHTML = TOPICS.map(t => `
-    <div class="topic-card ${visitedTopics.has(t.id) ? 'visited' : ''}" onclick="openTopicDetail(${t.id})" id="topic-card-${t.id}">
+    <div class="topic-card
+      ${visitedTopics.has(t.id) ? ' visited' : ''}
+      ${selectedTopic === t.id ? ' selected' : ''}"
+      onclick="openTopicDetail(${t.id})"
+      id="topic-card-${t.id}">
       <div class="topic-badge">✓</div>
       <div class="topic-icon">${t.icon}</div>
       <h4>${t.title}</h4>
@@ -1151,29 +1132,40 @@ function renderTopics() {
 
 function openTopicDetail(id) {
   visitedTopics.add(id);
-  openTopic = id;
+  selectedTopic = id;
   renderTopics();
   updateProgress();
 
   const t = TOPICS[id];
+  const embedUrl = ytEmbed(t.rawUrl);
+
+  // FIX #3 & #4: show integrated player
+  document.getElementById('videoPlaceholder').style.display = 'none';
+  const wrap = document.getElementById('videoPlayerWrap');
+  wrap.style.display = 'block';
+  document.getElementById('videoIframe').src = embedUrl;
+
   const detail = document.getElementById('topicDetail');
   detail.innerHTML = `
     <div class="topic-detail">
       <h4>${t.icon} ${t.title}</h4>
       <p>${t.text}</p>
-      <a class="video-link" href="${t.url}" target="_blank">▶ Ver video / recurso</a>
     </div>
   `;
-  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function updateProgress() {
-  const pct = Math.round((visitedTopics.size / TOPICS.length) * 100);
+  const total = TOPICS.length;
+  const pct = Math.round((visitedTopics.size / total) * 100);
   document.getElementById('exploraProgress').style.width = pct + '%';
-  document.getElementById('exploraProgressLabel').textContent = `${visitedTopics.size} de ${TOPICS.length} temas visitados`;
+  document.getElementById('exploraProgressLabel').textContent =
+    `${visitedTopics.size} de ${total} temas visitados`;
 }
 
-// ── QUIZ ──
+// ──────────────────────────────────────
+// QUIZ – EXPLORA
+// ──────────────────────────────────────
 function renderQuiz() {
   const container = document.getElementById('quizContainer');
   container.innerHTML = QUIZ.map((q, qi) => `
@@ -1181,7 +1173,7 @@ function renderQuiz() {
       <div class="question">${qi + 1}. ${q.q}</div>
       <div class="options">
         ${q.opts.map((o, oi) => `
-          <button class="opt-btn" id="opt-${qi}-${oi}" onclick="answerQuiz(${qi}, ${oi})">
+          <button class="opt-btn" id="opt-${qi}-${oi}" onclick="answerQuiz(${qi},${oi})">
             <strong>${String.fromCharCode(65+oi)}.</strong> ${o}
           </button>
         `).join('')}
@@ -1198,19 +1190,21 @@ function answerQuiz(qi, oi) {
   q.opts.forEach((_, i) => {
     const btn = document.getElementById(`opt-${qi}-${i}`);
     btn.disabled = true;
-    if (i === q.correct) btn.classList.add('correct');
-    else if (i === oi) btn.classList.add('wrong');
+    if (i === q.correct)      btn.classList.add('correct');
+    else if (i === oi)        btn.classList.add('wrong');
   });
   const fb = document.getElementById(`feedback-${qi}`);
-  const correct = oi === q.correct;
-  fb.innerHTML = `<strong>${correct ? '✅ ¡Correcto!' : '❌ No exactamente.'}</strong> ${q.feedback}`;
+  const isCorrect = oi === q.correct;
+  fb.innerHTML = `<strong>${isCorrect ? '✅ ¡Correcto!' : '❌ No exactamente.'}</strong> ${q.feedback}`;
   fb.classList.add('show');
 
   const answered = quizAnswered.filter(a => a !== null).length;
   document.getElementById('quizCounter').textContent = `${answered} / ${QUIZ.length}`;
 }
 
-// ── EXPANDE QUIZ ──
+// ──────────────────────────────────────
+// QUIZ – EXPANDE
+// ──────────────────────────────────────
 function renderExpandeQuiz() {
   const container = document.getElementById('expandeQuiz');
   const q = EXPANDE_Q;
@@ -1237,40 +1231,25 @@ function answerExpande(oi) {
     const btn = document.getElementById(`exp-opt-${i}`);
     btn.disabled = true;
     if (i === q.correct) btn.classList.add('correct');
-    else if (i === oi) btn.classList.add('wrong');
+    else if (i === oi)   btn.classList.add('wrong');
   });
   const fb = document.getElementById('expande-feedback');
-  const correct = oi === q.correct;
-  fb.innerHTML = `<strong>${correct ? '✅ ¡Excelente razonamiento!' : '❌ Piénsalo de nuevo.'}</strong> ${q.feedback}`;
+  const isCorrect = oi === q.correct;
+  fb.innerHTML = `<strong>${isCorrect ? '✅ ¡Excelente razonamiento!' : '❌ Piénsalo de nuevo.'}</strong> ${q.feedback}`;
   fb.classList.add('show');
 }
 
-// ── SUBMIT ──
-function submitForm() {
-  const nombre = document.getElementById('f-nombre').value.trim();
-  if (!nombre) { alert('Por favor ingresa tu nombre.'); return; }
-
-  // Collect all data
-  const data = {
-    nombre,
-    colegio: document.getElementById('f-colegio').value,
-    grado: document.getElementById('f-grado').value,
-    email: document.getElementById('f-email').value,
-    forma: document.getElementById('f-forma').value,
-    material: document.getElementById('f-material').value,
-    filtro: document.getElementById('f-filtro').value,
-    dificil: document.getElementById('f-dificil').value,
-    motivacion: document.getElementById('f-motivacion').value,
-    genero: document.getElementById('f-genero').value,
-    quizScore: quizAnswered.filter((a, i) => a === QUIZ[i].correct).length + '/' + QUIZ.length,
-    timestamp: new Date().toISOString(),
-  };
-
-  console.log('Submission:', data);
-
-  document.querySelector('.submit-form').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
-  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth' });
+// ──────────────────────────────────────
+// FIX #10: Toggle Ferguson video
+// ──────────────────────────────────────
+let fergusonOpen = false;
+function toggleFerguson() {
+  fergusonOpen = !fergusonOpen;
+  const player = document.getElementById('fergusonPlayer');
+  const btn    = event.currentTarget;
+  player.style.display = fergusonOpen ? 'block' : 'none';
+  btn.textContent      = fergusonOpen ? '✕ Cerrar video' : '▶ Ver video de nuevo';
+  if (fergusonOpen) player.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 </script>
 </body>
