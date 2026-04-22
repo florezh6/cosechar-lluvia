@@ -1165,21 +1165,6 @@ function openTopicDetail(id) {
     </div>
   `;
   detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  const t = TOPICS[id];
-  const videoId = t.url.split('/').pop(); // Intenta sacar el ID del link
-  
-  detail.innerHTML = `
-    <div class="topic-detail">
-      <h4>${t.icon} ${t.title}</h4>
-      <p>${t.text}</p>
-      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;margin-bottom:1rem;">
-        <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-          src="https://www.youtube.com/embed/${videoId}" 
-          frameborder="0" allowfullscreen></iframe>
-      </div>
-    </div>
-  `;
-}
 }
 
 function updateProgress() {
